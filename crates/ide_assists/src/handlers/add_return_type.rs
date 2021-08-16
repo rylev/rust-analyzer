@@ -48,20 +48,58 @@ mod tests {
     use super::*;
 
     use crate::tests::check_assist;
+
     #[test]
-    fn it_works() {
+    fn add_return_type_with_no_previous_type() {
         check_assist(
             add_return_type,
             r#"
-struct Foo;
+struct Foo<T>(T);
 fn foo() {
-    $0Foo
+    let x = 1usize + 1;
+    $0Foo(x)
 }
 "#,
             r#"
-struct Foo;
-fn foo() -> Foo {
-    Foo
+struct Foo<T>(T);
+fn foo() -> Foo<usize> {
+    let x = 1usize + 1;
+    Foo(x)
+}
+"#,
+        );
+    }
+
+    #[test]
+    fn add_return_type_ref_with_no_previous_type() {
+        check_assist(
+            add_return_type,
+            r#"
+fn foo<T>(t: &T) {
+    $0t
+}
+"#,
+            r#"
+fn foo<T>(t: &T) -> &T {
+    t
+}
+"#,
+        );
+    }
+
+    #[test]
+    fn add_return_type_ref_explicit_lifetime_with_no_previous_type() {
+        check_assist(
+            add_return_type,
+            r#"
+fn foo() {
+    $0"Hello, world"
+}
+"#,
+            // TODO: this won't compile because of a lack of a `'static` lifetime annotation
+            r#"
+fn foo() -> &str {
+    "Hello, world"
 }
 "#,
         );
