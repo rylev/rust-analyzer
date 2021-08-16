@@ -528,7 +528,7 @@ pub fn test_some_range(a: int) -> bool {
                                         delete: 59..60,
                                     },
                                     Indel {
-                                        insert: "\n\nfn $0fun_name() -> i32 {\n    5\n}",
+                                        insert: "\n\nfn ${0:fun_name}() -> i32 {\n    5\n}",
                                         delete: 110..110,
                                     },
                                 ],

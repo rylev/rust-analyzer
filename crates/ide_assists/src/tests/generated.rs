@@ -413,7 +413,7 @@ fn main() {
     let g = 3;
 }
 
-fn $0fun_name(n: i32) {
+fn ${0:fun_name}(n: i32) {
     let m = n + 2;
     let k = m + n;
 }

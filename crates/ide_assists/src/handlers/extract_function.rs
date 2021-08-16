@@ -49,7 +49,7 @@ type FxIndexSet<T> = indexmap::IndexSet<T, BuildHasherDefault<FxHasher>>;
 //     let g = 3;
 // }
 //
-// fn $0fun_name(n: i32) {
+// fn ${0:fun_name}(n: i32) {
 //     let m = n + 2;
 //     let k = m + n;
 // }
@@ -1259,7 +1259,7 @@ fn format_function(
     match ctx.config.snippet_cap {
         Some(_) => format_to!(
             fn_def,
-            "\n\n{}{}{}{}fn $0{}{}",
+            "\n\n{}{}{}{}fn ${{0:{}}}{}",
             new_indent,
             const_kw,
             async_kw,
@@ -1666,7 +1666,7 @@ fn foo() {
     foo(fun_name());
 }
 
-fn $0fun_name() -> i32 {
+fn ${0:fun_name}() -> i32 {
     1 + 1
 }
 "#,
@@ -1690,7 +1690,7 @@ mod bar {
         foo(fun_name());
     }
 
-    fn $0fun_name() -> i32 {
+    fn ${0:fun_name}() -> i32 {
         1 + 1
     }
 }
@@ -1712,7 +1712,7 @@ fn foo() {
     fun_name();
 }
 
-fn $0fun_name() -> i32 {
+fn ${0:fun_name}() -> i32 {
     1 + 1
 }
 "#,
@@ -1736,7 +1736,7 @@ fn foo() -> i32 {
     fun_name()
 }
 
-fn $0fun_name() -> i32 {
+fn ${0:fun_name}() -> i32 {
     let m = 1;
     m + 1
 }
@@ -1763,7 +1763,7 @@ fn foo() {
     let g = 5;
 }
 
-fn $0fun_name() {
+fn ${0:fun_name}() {
     let m = 1;
     let n = m + 1;
 }
@@ -1785,7 +1785,7 @@ fn foo() {
     fun_name();
 }
 
-fn $0fun_name() {
+fn ${0:fun_name}() {
     if true { }
 }
 "#,
@@ -1806,7 +1806,7 @@ fn foo() -> i32 {
     fun_name()
 }
 
-fn $0fun_name() -> i32 {
+fn ${0:fun_name}() -> i32 {
     if true { 1 } else { 2 }
 }
 "#,
@@ -1827,7 +1827,7 @@ fn foo() -> i32 {
     fun_name()
 }
 
-fn $0fun_name() -> i32 {
+fn ${0:fun_name}() -> i32 {
     if let true = false { 1 } else { 2 }
 }
 "#,
@@ -1851,7 +1851,7 @@ fn foo() -> i32 {
     fun_name()
 }
 
-fn $0fun_name() -> i32 {
+fn ${0:fun_name}() -> i32 {
     match true {
         true => 1,
         false => 2,
@@ -1875,7 +1875,7 @@ fn foo() {
     fun_name();
 }
 
-fn $0fun_name() {
+fn ${0:fun_name}() {
     while true { }
 }
 "#,
@@ -1896,7 +1896,7 @@ fn foo() {
     fun_name();
 }
 
-fn $0fun_name() {
+fn ${0:fun_name}() {
     for v in &[0, 1] { }
 }
 "#,
@@ -1919,7 +1919,7 @@ fn foo() {
     fun_name()
 }
 
-fn $0fun_name() -> ! {
+fn ${0:fun_name}() -> ! {
     loop {
         let m = 1;
     }
@@ -1945,7 +1945,7 @@ fn foo() {
     let v = fun_name();
 }
 
-fn $0fun_name() -> i32 {
+fn ${0:fun_name}() -> i32 {
     loop {
         let m = 1;
         break m;
@@ -1972,7 +1972,7 @@ fn foo() {
     let v: i32 = fun_name();
 }
 
-fn $0fun_name() -> i32 {
+fn ${0:fun_name}() -> i32 {
     match Some(1) {
         Some(x) => x,
         None => 0,
@@ -2000,7 +2000,7 @@ fn foo() {
     v += 1;
 }
 
-fn $0fun_name(n: i32) -> i32 {
+fn ${0:fun_name}(n: i32) -> i32 {
     let mut v = n * n;
     v
 }
@@ -2031,7 +2031,7 @@ fn foo() {
     w += 1;
 }
 
-fn $0fun_name(m: i32, n: i32) -> (i32, i32) {
+fn ${0:fun_name}(m: i32, n: i32) -> (i32, i32) {
     let mut v = m * n;
     let mut w = 3;
     (v, w)
@@ -2056,7 +2056,7 @@ fn foo() -> u32 {
     fun_name(n)
 }
 
-fn $0fun_name(n: u32) -> u32 {
+fn ${0:fun_name}(n: u32) -> u32 {
     n+2
 }
 "#,
@@ -2079,7 +2079,7 @@ fn foo() -> u32 {
     fun_name(n)
 }
 
-fn $0fun_name(n: u32) -> u32 {
+fn ${0:fun_name}(n: u32) -> u32 {
     n+n
 }
 "#,
@@ -2104,7 +2104,7 @@ fn foo() -> u32 {
     fun_name(n, m)
 }
 
-fn $0fun_name(n: u32, m: u32) -> u32 {
+fn ${0:fun_name}(n: u32, m: u32) -> u32 {
     n+n*m
 }
 "#,
@@ -2128,7 +2128,7 @@ fn foo() -> u32 {
     fun_name(n)
 }
 
-fn $0fun_name(n: u32) -> u32 {
+fn ${0:fun_name}(n: u32) -> u32 {
     let m = 1;
     n + m
 }
@@ -2156,7 +2156,7 @@ fn foo() {
     fun_name() + 1;
 }
 
-fn $0fun_name() -> i32 {
+fn ${0:fun_name}() -> i32 {
     1
 }
 "#,
@@ -2177,7 +2177,7 @@ fn foo() {
     fun_name();
 }
 
-fn $0fun_name() {
+fn ${0:fun_name}() {
     bar(1 + 1)
 }
 "#,
@@ -2206,7 +2206,7 @@ fn main() {
     };
 }
 
-fn $0fun_name() -> i32 {
+fn ${0:fun_name}() -> i32 {
     2 + 2
 }
 "#,
@@ -2227,7 +2227,7 @@ fn main() {
     let lambda = |x: u32| fun_name(x);
 }
 
-fn $0fun_name(x: u32) -> u32 {
+fn ${0:fun_name}(x: u32) -> u32 {
     x * 2
 }
 "#,
@@ -2248,7 +2248,7 @@ fn foo() -> u32 {
     return fun_name();
 }
 
-fn $0fun_name() -> u32 {
+fn ${0:fun_name}() -> u32 {
     2 + 2
 }
 "#,
@@ -2273,7 +2273,7 @@ fn foo() -> u32 {
     return fun_name();
 }
 
-fn $0fun_name() -> u32 {
+fn ${0:fun_name}() -> u32 {
     2 + 2
 }
 "#,
@@ -2298,7 +2298,7 @@ fn main() {
     };
 }
 
-fn $0fun_name() -> i32 {
+fn ${0:fun_name}() -> i32 {
     2 + 2
 }
 "#,
@@ -2319,7 +2319,7 @@ fn main() {
     let v = fun_name();
 }
 
-fn $0fun_name() -> u32 {
+fn ${0:fun_name}() -> u32 {
     0f32 as u32
 }
 "#,
@@ -2353,7 +2353,7 @@ impl S {
     }
 }
 
-fn $0fun_name() -> i32 {
+fn ${0:fun_name}() -> i32 {
     1+1
 }
 "#,
@@ -2381,7 +2381,7 @@ impl S {
         self.fun_name()
     }
 
-    fn $0fun_name(&self) -> i32 {
+    fn ${0:fun_name}(&self) -> i32 {
         1+self.f
     }
 }
@@ -2410,7 +2410,7 @@ impl S {
         self.fun_name();
     }
 
-    fn $0fun_name(&mut self) {
+    fn ${0:fun_name}(&mut self) {
         self.f += 1;
     }
 }
@@ -2436,7 +2436,7 @@ fn foo() {
     let m = k + 1;
 }
 
-fn $0fun_name(n: i32) -> i32 {
+fn ${0:fun_name}(n: i32) -> i32 {
     let k = n * n;
     k
 }
@@ -2462,7 +2462,7 @@ fn foo() {
     k += 1;
 }
 
-fn $0fun_name(n: i32) -> i32 {
+fn ${0:fun_name}(n: i32) -> i32 {
     let mut k = n * n;
     k
 }
@@ -2489,7 +2489,7 @@ fn foo() {
     let h = k + m;
 }
 
-fn $0fun_name(n: i32) -> (i32, i32) {
+fn ${0:fun_name}(n: i32) -> (i32, i32) {
     let k = n * n;
     let m = k + 2;
     (k, m)
@@ -2521,7 +2521,7 @@ fn foo() {
     m = 1;
 }
 
-fn $0fun_name(n: i32) -> (i32, i32, i32) {
+fn ${0:fun_name}(n: i32) -> (i32, i32, i32) {
     let mut k = n * n;
     let mut m = k + 2;
     let mut o = m + 3;
@@ -2550,7 +2550,7 @@ fn foo() {
     let m = n;
 }
 
-fn $0fun_name() -> i32 {
+fn ${0:fun_name}() -> i32 {
     let Counter(n) = Counter(0);
     n
 }
@@ -2576,7 +2576,7 @@ fn foo() {
     let h = n + k;
 }
 
-fn $0fun_name() -> (i32, i32) {
+fn ${0:fun_name}() -> (i32, i32) {
     let Counter { n, m: k } = Counter { n: 1, m: 2 };
     (n, k)
 }
@@ -2602,7 +2602,7 @@ fn foo() {
     let m = n + 1;
 }
 
-fn $0fun_name(n: &mut i32) {
+fn ${0:fun_name}(n: &mut i32) {
     *n += 1;
 }
 "#,
@@ -2629,7 +2629,7 @@ fn foo() {
     let m = c.n + 1;
 }
 
-fn $0fun_name(c: &mut C) {
+fn ${0:fun_name}(c: &mut C) {
     c.n += 1;
 }
 "#,
@@ -2663,7 +2663,7 @@ fn foo() {
     let m = c.p.n + v.p.n + u.p.n;
 }
 
-fn $0fun_name(c: &mut C, u: &C, v: &mut C) {
+fn ${0:fun_name}(c: &mut C, u: &C, v: &mut C) {
     c.p.n += u.p.n;
     let r = &mut v.p.n;
 }
@@ -2713,7 +2713,7 @@ fn foo() {
     let m = n + 1;
 }
 
-fn $0fun_name(n: &mut i32) {
+fn ${0:fun_name}(n: &mut i32) {
     *n += *n;
     bar(*n);
     bar(*n+1);
@@ -2772,7 +2772,7 @@ fn foo() {
     let m = n + 1;
 }
 
-fn $0fun_name(n: &mut i32) {
+fn ${0:fun_name}(n: &mut i32) {
     *n += *n;
     bar(*n);
     bar(*n+1);
@@ -2803,7 +2803,7 @@ fn foo() {
     fun_name(n);
 }
 
-fn $0fun_name(mut n: i32) {
+fn ${0:fun_name}(mut n: i32) {
     n += 1;
 }
 ",
@@ -2829,7 +2829,7 @@ fn foo() {
     let k = n;
 }
 
-fn $0fun_name(n: &mut i32) {
+fn ${0:fun_name}(n: &mut i32) {
     let v = n;
     *v += 1;
 }
@@ -2854,7 +2854,7 @@ fn foo() {
     fun_name(n);
 }
 
-fn $0fun_name(mut n: i32) {
+fn ${0:fun_name}(mut n: i32) {
     let v = &mut n;
     *v += 1;
 }
@@ -2890,7 +2890,7 @@ fn foo() {
     fun_name(n);
 }
 
-fn $0fun_name(mut n: i32) {
+fn ${0:fun_name}(mut n: i32) {
     n.inc();
 }
 "#,
@@ -2925,7 +2925,7 @@ fn foo() {
     fun_name(n);
 }
 
-fn $0fun_name(n: i32) {
+fn ${0:fun_name}(n: i32) {
     n.succ();
 }
 ",
@@ -2961,7 +2961,7 @@ fn foo() {
     fun_name(n);
 }
 
-fn $0fun_name(n: i32) {
+fn ${0:fun_name}(n: i32) {
     let mut m = 2;
     m.inc(n);
 }
@@ -2987,7 +2987,7 @@ fn foo() {
     fun_name(c);
 }
 
-fn $0fun_name(c: Counter) {
+fn ${0:fun_name}(c: Counter) {
     let n = c.0;
 }
 ",
@@ -3014,7 +3014,7 @@ fn foo() {
     let m = c.0;
 }
 
-fn $0fun_name(c: &Counter) {
+fn ${0:fun_name}(c: &Counter) {
     let n = c.0;
 }
 "#,
@@ -3040,7 +3040,7 @@ fn foo() {
     let k = n;
 }
 
-fn $0fun_name(n: i32) {
+fn ${0:fun_name}(n: i32) {
     let m = n;
 }
 "#,
@@ -3070,7 +3070,7 @@ fn foo() {
     let m = c.0;
 }
 
-fn $0fun_name(c: Counter) {
+fn ${0:fun_name}(c: Counter) {
     let n = c.0;
 }
 "#,
@@ -3100,7 +3100,7 @@ fn foo() {
     }
 }
 
-fn $0fun_name() {
+fn ${0:fun_name}() {
     let n = 1;
     let m = 2;
 }
@@ -3134,7 +3134,7 @@ mod bar {
         }
     }
 
-    fn $0fun_name() {
+    fn ${0:fun_name}() {
         let n = 1;
         let m = 2;
     }
@@ -3171,7 +3171,7 @@ fn foo() {
     }
 }
 
-fn $0fun_name(n: i32) -> Option<i32> {
+fn ${0:fun_name}(n: i32) -> Option<i32> {
     let m = n + 1;
     return None;
     let k = 2;
@@ -3205,7 +3205,7 @@ fn foo() -> i64 {
     (n + k) as i64
 }
 
-fn $0fun_name(n: i32) -> Result<i32, i64> {
+fn ${0:fun_name}(n: i32) -> Result<i32, i64> {
     let m = n + 1;
     return Err(1);
     let k = 2;
@@ -3283,7 +3283,7 @@ fn foo() {
     }
 }
 
-fn $0fun_name(n: &mut i32) -> bool {
+fn ${0:fun_name}(n: &mut i32) -> bool {
     let m = *n + 1;
     return true;
     *n += m;
@@ -3320,7 +3320,7 @@ fn foo() {
     }
 }
 
-fn $0fun_name(n: i32) -> bool {
+fn ${0:fun_name}(n: i32) -> bool {
     let m = n + 1;
     if m == 42 {
         return true;
@@ -3360,7 +3360,7 @@ fn foo() {
     }
 }
 
-fn $0fun_name() -> Option<i32> {
+fn ${0:fun_name}() -> Option<i32> {
     let k = 1;
     loop {
         return None;
@@ -3398,7 +3398,7 @@ fn foo() {
     }
 }
 
-fn $0fun_name() -> i32 {
+fn ${0:fun_name}() -> i32 {
     let k = 1;
     loop {
         break;
@@ -3442,7 +3442,7 @@ fn foo() {
     }
 }
 
-fn $0fun_name() -> Option<i32> {
+fn ${0:fun_name}() -> Option<i32> {
     let k = 1;
     loop {
         break;
@@ -3483,7 +3483,7 @@ fn foo() {
     }
 }
 
-fn $0fun_name() -> i32 {
+fn ${0:fun_name}() -> i32 {
     let k = 1;
     fn test() {
         return;
@@ -3523,7 +3523,7 @@ fn foo() -> i32 {
     }
 }
 
-fn $0fun_name() -> Option<i32> {
+fn ${0:fun_name}() -> Option<i32> {
     let k = 1;
     if k == 42 {
         return Some(3);
@@ -3564,7 +3564,7 @@ fn foo() -> i64 {
     }
 }
 
-fn $0fun_name() -> Result<i32, i64> {
+fn ${0:fun_name}() -> Result<i32, i64> {
     let k = 1;
     if k == 42 {
         return Err(3);
@@ -3600,7 +3600,7 @@ fn foo() -> Option<()> {
     Some(())
 }
 
-fn $0fun_name() -> Option<i32> {
+fn ${0:fun_name}() -> Option<i32> {
     let k = foo()?;
     let m = k + 1;
     Some(m)
@@ -3631,7 +3631,7 @@ fn foo() -> Option<()> {
     Some(())
 }
 
-fn $0fun_name() -> Option<()> {
+fn ${0:fun_name}() -> Option<()> {
     let k = foo()?;
     let m = k + 1;
     Some(())
@@ -3662,7 +3662,7 @@ fn foo() -> Result<(), i64> {
     Ok(())
 }
 
-fn $0fun_name() -> Result<i32, i64> {
+fn ${0:fun_name}() -> Result<i32, i64> {
     let k = foo()?;
     let m = k + 1;
     Ok(m)
@@ -3696,7 +3696,7 @@ fn foo() -> Option<()> {
     Some(())
 }
 
-fn $0fun_name() -> Option<i32> {
+fn ${0:fun_name}() -> Option<i32> {
     let k = foo()?;
     if k == 42 {
         return None;
@@ -3733,7 +3733,7 @@ fn foo() -> Result<(), i64> {
     Ok(())
 }
 
-fn $0fun_name() -> Result<i32, i64> {
+fn ${0:fun_name}() -> Result<i32, i64> {
     let k = foo()?;
     if k == 42 {
         return Err(1);
@@ -3792,7 +3792,7 @@ fn foo() -> Result<(), i64> {
     Ok(())
 }
 
-fn $0fun_name() -> Result<i32, i64> {
+fn ${0:fun_name}() -> Result<i32, i64> {
     let k = foo()?;
     if k == 42 {
         return Ok(1);
@@ -3830,7 +3830,7 @@ fn foo() {
     let m = k + 1;
 }
 
-fn $0fun_name(n: i32) -> i32 {
+fn ${0:fun_name}(n: i32) -> i32 {
     let k = n * m!(n);
     k
 }
@@ -3856,7 +3856,7 @@ fn main() {
     fun_name().await;
 }
 
-async fn $0fun_name() {
+async fn ${0:fun_name}() {
     some_function().await;
 }
 
@@ -3885,7 +3885,7 @@ fn main() {
     fun_name().await;
 }
 
-async fn $0fun_name() {
+async fn ${0:fun_name}() {
     function_call("a", some_function().await);
 }
 
@@ -3926,7 +3926,7 @@ fn main() {
     }
 }
 
-fn $0fun_name() -> i32 {
+fn ${0:fun_name}() -> i32 {
     100
 }
 "#,
@@ -3949,7 +3949,7 @@ fn main() {
     }
 }
 
-fn $0fun_name() -> i32 {
+fn ${0:fun_name}() -> i32 {
     100
 }
 "#,
@@ -3975,7 +3975,7 @@ fn foo() {
     /**/
 }
 
-fn $0fun_name() {
+fn ${0:fun_name}() {
     foo();
     foo();
 }
@@ -3999,7 +3999,7 @@ fn foo() -> Result<(), i64> {
     fun_name()?
 }
 
-fn $0fun_name() -> Result<(), i64> {
+fn ${0:fun_name}() -> Result<(), i64> {
     Result::<i32, i64>::Ok(0)?;
     Ok(())
 }
@@ -4021,7 +4021,7 @@ const fn foo() {
     fun_name();
 }
 
-const fn $0fun_name() {
+const fn ${0:fun_name}() {
     ()
 }
 "#,
@@ -4038,7 +4038,7 @@ const FOO: () = {
     fun_name();
 };
 
-const fn $0fun_name() {
+const fn ${0:fun_name}() {
     ()
 }
 "#,
@@ -4065,7 +4065,7 @@ fn foo() {
     }
 }
 
-fn $0fun_name(x: &mut i32) {
+fn ${0:fun_name}(x: &mut i32) {
     *x += 1;
 }
 "#,
@@ -4088,7 +4088,7 @@ fn foo() {
     }
 }
 
-fn $0fun_name(mut x: i32) {
+fn ${0:fun_name}(mut x: i32) {
     x += 1;
 }
 "#,
@@ -4115,7 +4115,7 @@ fn foo() {
     }
 }
 
-fn $0fun_name(x: &mut i32) {
+fn ${0:fun_name}(x: &mut i32) {
     *x += 1;
 }
 "#,
@@ -4155,7 +4155,7 @@ fn foo() {
     let z = x;
 }
 
-fn $0fun_name(y: &mut Foo) {
+fn ${0:fun_name}(y: &mut Foo) {
     y.foo();
 }
 "#,
